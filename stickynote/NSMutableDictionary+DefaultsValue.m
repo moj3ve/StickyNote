@@ -1,6 +1,6 @@
-#import "HBPreferences+Helpers.h"
+#import "NSMutableDictionary+DefaultsValue.h"
 
-@implementation HBPreferences (Helpers)
+@implementation NSMutableDictionary (DefaultsValue)
 
 // Only use this method if the value for the specified key should not be 0
 - (NSInteger)nonZeroIntegerForKey:(NSString *)key fallback:(NSInteger)fallback {

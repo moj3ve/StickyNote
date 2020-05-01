@@ -1,6 +1,4 @@
-#import <Cephei/HBPreferences.h>
-
-@interface HBPreferences (Helpers)
+@interface NSMutableDictionary (DefaultsValue)
 
 - (NSInteger)nonZeroIntegerForKey:(NSString *)key fallback:(NSInteger)fallback;
 - (BOOL)valueExistsForKey:(NSString *)key;

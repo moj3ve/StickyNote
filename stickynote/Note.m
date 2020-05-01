@@ -1,4 +1,4 @@
-#import "HBPreferences+Helpers.h"
+#import "NSMutableDictionary+DefaultsValue.h"
 #import "Constants.h"
 #import "Note.h"
 
@@ -6,10 +6,10 @@
 
 # pragma mark - Initialization
 
-- (id)initWithFrame:(CGRect)frame prefs:(HBPreferences *)preferences {
+- (id)initWithFrame:(CGRect)frame defaults:(NSMutableDictionary *)defaultsDict {
 	self = [super initWithFrame:frame];
 	if (self) {
-		prefs = preferences;
+		defaults = defaultsDict;
 		[self setupStyle];
 		[self setupClearButton];
 		[self setupTextView];
@@ -21,16 +21,16 @@
 
 - (void)setupStyle {
 	double alphaValue;
-	if ([([prefs objectForKey:@"useCustomAlpha"] ?: @(NO)) boolValue]) {
-		alphaValue = [([prefs objectForKey:@"alphaValue"] ?: @(kDefaultAlpha)) doubleValue];
+	if ([([defaults objectForKey:@"useCustomAlpha"] ?: @(NO)) boolValue]) {
+		alphaValue = [([defaults objectForKey:@"alphaValue"] ?: @(kDefaultAlpha)) doubleValue];
 	} else {
 		alphaValue = kDefaultAlpha;
 	}
 	// TODO: Fix colors
 	// BOOL useCustomColor = [defaults boolValueForKey:@"useCustomNoteColor" fallback:NO];
 	self.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:alphaValue];//useCustomColor ? [defaults colorValueForKey:@"noteColor" fallback:@"#ffff00"] : [UIColor yellowColor];
-	if ([prefs valueExistsForKey:@"cornerRadius"]) {
-		self.layer.cornerRadius = [([prefs objectForKey:@"cornerRadius"] ?: @(kDefaultCornerRadius)) intValue];
+	if ([defaults valueExistsForKey:@"cornerRadius"]) {
+		self.layer.cornerRadius = [([defaults objectForKey:@"cornerRadius"] ?: @(kDefaultCornerRadius)) intValue];
 	} else {
 		self.layer.cornerRadius = kDefaultCornerRadius;
 	}
@@ -55,7 +55,7 @@
 	// TODO: Fix colors
 	//BOOL useCustomFontColor = [defaults boolValueForKey:@"useCustomFontColor" fallback:NO];
 	textView.textColor = [UIColor blackColor];//useCustomFontColor ? [defaults colorValueForKey:@"fontColor" fallback:@"#000000"] : [UIColor blackColor];
-	NSInteger fontSize = [([prefs objectForKey:@"fontSize"] ?: @(kDefaultFontSize)) intValue];
+	NSInteger fontSize = [([defaults objectForKey:@"fontSize"] ?: @(kDefaultFontSize)) intValue];
 	textView.font = [UIFont systemFontOfSize:fontSize];
 
 	// Setup 'Done' button on keyboard

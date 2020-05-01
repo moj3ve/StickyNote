@@ -11,25 +11,21 @@
 			<key>label</key>
 			<string>Original Tweak</string>
 		</dict>
-        <dict>
-			<key>cellClass</key>
-			<string>HBPackageTableCell</string>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
 			<key>label</key>
 			<string>Sticky</string>
-			<key>packageIdentifier</key>
-			<string>com.modmyi.sticky</string>
+			<key>action</key>
+			<string>openTweak</string>
 		</dict>
-        <dict>
-			<key>big</key>
-			<true/>
-			<key>cellClass</key>
-			<string>HBTwitterCell</string>
-			<key>height</key>
-			<integer>56</integer>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
 			<key>label</key>
-			<string>William Vabrinskas</string>
-			<key>user</key>
-			<string>wvabrinskas</string>
+			<string>@wvabrinskas</string>
+			<key>action</key>
+			<string>openTwitter</string>
 		</dict>
 	</array>
 	<key>title</key>

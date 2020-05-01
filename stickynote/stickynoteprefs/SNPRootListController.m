@@ -5,7 +5,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	NSDictionary *preferences = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.gabrielsiu.stickynoteprefs.plist"];
+	NSMutableDictionary *preferences = [NSMutableDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.gabrielsiu.stickynoteprefs.plist"];
 	if (![preferences[@"useCustomNoteColor"] boolValue]) {
 		[self removeContiguousSpecifiers:@[self.savedSpecifiers[@"noteColorCell"]] animated:NO];
 	}
@@ -23,7 +23,7 @@
 - (void)reloadSpecifiers {
 	[super reloadSpecifiers];
 	
-	NSDictionary *preferences = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.gabrielsiu.stickynoteprefs.plist"];
+	NSMutableDictionary *preferences = [NSMutableDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.gabrielsiu.stickynoteprefs.plist"];
 	if (![preferences[@"useCustomNoteColor"] boolValue]) {
 		[self removeContiguousSpecifiers:@[self.savedSpecifiers[@"noteColorCell"]] animated:NO];
 	}
@@ -82,6 +82,12 @@
 	} else if (![self containsSpecifier:self.savedSpecifiers[chosenID]]) {
 		[self insertContiguousSpecifiers:@[self.savedSpecifiers[chosenID]] afterSpecifierID:prevID animated:YES];
 	}
+}
+
+# pragma mark - Actions
+
+- (void)openTwitter {
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/gabrielsiu_dev"] options:@{} completionHandler:nil];
 }
 
 @end

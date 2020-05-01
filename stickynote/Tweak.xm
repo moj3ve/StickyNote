@@ -1,5 +1,4 @@
-#import <Cephei/HBPreferences.h>
-#import "HBPreferences+Helpers.h"
+#import "NSMutableDictionary+DefaultsValue.h"
 #import "Constants.h"
 #import "Note.h"
 
@@ -19,7 +18,7 @@
 
 @end
 
-HBPreferences *prefs;
+NSMutableDictionary *defaults;
 Note *noteView;
 UIButton *hideButton;
 CGPoint initialCenter;
@@ -44,11 +43,11 @@ CGPoint initialCenter;
 
 %new
 - (void)setupNote {
-	NSInteger width = [prefs nonZeroIntegerForKey:@"width" fallback:kDefaultNoteSize];
-	NSInteger height = [prefs nonZeroIntegerForKey:@"height" fallback:kDefaultNoteSize];
+	NSInteger width = [defaults nonZeroIntegerForKey:@"width" fallback:kDefaultNoteSize];
+	NSInteger height = [defaults nonZeroIntegerForKey:@"height" fallback:kDefaultNoteSize];
 	CGFloat noteX = (self.frame.size.width - width) / 2.0f;
 	CGFloat noteY = (self.frame.size.height - height) / 2.0f;
-	noteView = [[Note alloc] initWithFrame:CGRectMake(noteX, noteY, width, height) prefs:prefs];
+	noteView = [[Note alloc] initWithFrame:CGRectMake(noteX, noteY, width, height) defaults:defaults];
 
 	UIPanGestureRecognizer *fingerDrag = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleDrag:)];
 	[noteView addGestureRecognizer:fingerDrag];
@@ -67,8 +66,8 @@ CGPoint initialCenter;
 	[hideButton addGestureRecognizer:longPress];
 
 	[self addSubview:hideButton];
-	NSInteger xOffset = [([prefs objectForKey:@"xOffset"] ?: @0) intValue];
-	NSInteger yOffset = [([prefs objectForKey:@"yOffset"] ?: @0) intValue];
+	NSInteger xOffset = [([defaults objectForKey:@"xOffset"] ?: @0) intValue];
+	NSInteger yOffset = [([defaults objectForKey:@"yOffset"] ?: @0) intValue];
 	hideButton.translatesAutoresizingMaskIntoConstraints = NO;
 	[hideButton.widthAnchor constraintEqualToConstant:1.2f*kIconSize].active = YES;
     [hideButton.heightAnchor constraintEqualToConstant:1.2f*kIconSize].active = YES;
@@ -94,14 +93,14 @@ CGPoint initialCenter;
 
 	// Determine animation duration
 	NSTimeInterval duration;
-	if ([([prefs objectForKey:@"useCustomDuration"] ?: @(NO)) boolValue]) {
-		duration = [([prefs objectForKey:@"customDuration"] ?: @(kDefaultAnimDuration)) doubleValue];
+	if ([([defaults objectForKey:@"useCustomDuration"] ?: @(NO)) boolValue]) {
+		duration = [([defaults objectForKey:@"customDuration"] ?: @(kDefaultAnimDuration)) doubleValue];
 	} else {
 		duration = kDefaultAnimDuration;
 	}
 
 	// Determine animation type
-	NSInteger animationNum = [([prefs objectForKey:@"animationType"] ?: @0) intValue];
+	NSInteger animationNum = [([defaults objectForKey:@"animationType"] ?: @0) intValue];
 	UIViewAnimationOptions animationType;
 	switch (animationNum) {
 		case 1:
@@ -184,9 +183,9 @@ CGPoint initialCenter;
 # pragma mark - Initialization
 
 %ctor {
-	prefs = [[HBPreferences alloc] initWithIdentifier:@"com.gabrielsiu.stickynoteprefs"];
-	if (prefs) {
-		if ([([prefs objectForKey:@"isEnabled"] ?: @(YES)) boolValue]) {
+	defaults = [NSMutableDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.gabrielsiu.stickynoteprefs.plist"];
+	if (defaults) {
+		if ([([defaults objectForKey:@"isEnabled"] ?: @(YES)) boolValue]) {
 			%init(Tweak);
 		}
 	}
